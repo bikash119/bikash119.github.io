@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Bikash Patra</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;0,6..72,800;1,6..72,300;1,6..72,400;1,6..72,500;1,6..72,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper:    #f1ece2;
+    --ink:      #2a2520;
+    --ink-soft: #4a433c;
+    --ink-mute: #8a8276;
+    --rule:     #2a2520;
+    --accent:   #5d3b8a;
+    --measure:  62ch;
+    --gutter:   max(24px, 5vw);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+
+  body {
+    font-family: "Newsreader", "Source Serif Pro", Georgia, serif;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-size: 17px;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  .mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; letter-spacing: 0.02em; }
+
+  a { color: var(--ink); text-decoration: none; border-bottom: 0.5px solid var(--ink-mute); padding-bottom: 1px; transition: color .15s, border-color .15s; }
+  a:hover { color: var(--accent); border-color: var(--accent); }
+  ::selection { background: var(--accent); color: var(--paper); }
+
+  /* ───── top nav ───── */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px var(--gutter);
+    background: color-mix(in oklab, var(--paper) 88%, transparent);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    backdrop-filter: blur(12px) saturate(140%);
+    border-bottom: 0.5px solid color-mix(in oklab, var(--ink) 18%, transparent);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .topbar .name { font-weight: 600; color: var(--ink); }
+  .topbar nav { display: flex; gap: 22px; }
+  .topbar nav a { border: 0; padding: 0; color: var(--ink-soft); }
+  .topbar nav a:hover { color: var(--accent); }
+  .topbar .dot { color: var(--accent); padding-right: 6px; }
+
+  /* ───── hero ───── */
+  .hero {
+    padding: clamp(48px, 10vw, 120px) var(--gutter) clamp(40px, 7vw, 80px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(32px, 6vw, 80px);
+    align-items: end;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero .left { min-width: 0; }
+  .hero .kicker {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero .kicker .pulse {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(0.6); opacity: 0.35; }
+  }
+
+  .hero h1 {
+    font-weight: 700;
+    font-size: clamp(48px, 8vw, 100px);
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    margin: 0 0 24px;
+    font-variant-ligatures: discretionary-ligatures;
+  }
+  .hero h1 .amp { color: var(--accent); font-style: italic; font-weight: 500; }
+  .hero h1 .soft { color: var(--ink-mute); }
+
+  .hero .lede {
+    font-size: clamp(18px, 1.7vw, 22px);
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 36ch;
+    font-weight: 400;
+    margin: 0 0 28px;
+  }
+  .hero .lede em { color: var(--ink); font-style: italic; }
+
+  .hero .social {
+    display: flex; gap: 16px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .hero .social a { border-bottom: 0.5px solid var(--ink-mute); padding-bottom: 2px; }
+
+  .hero .right {
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .avatar-frame {
+    position: relative;
+    width: clamp(180px, 22vw, 280px);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,.12), inset 0 0 0 0.5px var(--ink);
+    background: color-mix(in oklab, var(--accent) 8%, var(--paper));
+    animation: bob 6s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+  }
+  .avatar-frame image-slot {
+    width: 100%; height: 100%; display: block;
+    --slot-placeholder-color: var(--ink-soft);
+  }
+  .avatar-caption {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    text-align: center;
+  }
+
+  /* ───── section frame ───── */
+  section.major {
+    padding: clamp(42px, 6vw, 80px) var(--gutter);
+    border-bottom: 1px solid var(--rule);
+  }
+  .sec-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: clamp(28px, 4vw, 52px);
+    padding-bottom: 14px;
+    border-bottom: 0.5px solid var(--ink);
+  }
+  .sec-label {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .sec-title {
+    font-weight: 600;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.015em;
+    margin: 6px 0 0;
+  }
+  .sec-title em { font-weight: 400; color: var(--ink-soft); }
+  .sec-meta {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* ───── NOW section ───── */
+  .now-body {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: clamp(28px, 5vw, 72px);
+    align-items: start;
+  }
+  .now-prose {
+    max-width: var(--measure);
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .now-prose p { margin: 0 0 1.1em; }
+  .now-prose p:first-of-type::first-letter {
+    font-weight: 700;
+    float: left;
+    font-size: 5.2em;
+    line-height: 0.86;
+    padding: 6px 12px 0 0;
+    color: var(--accent);
+  }
+  .now-prose strong { color: var(--ink); font-weight: 600; }
+  .now-prose em { font-style: italic; color: var(--ink-soft); }
+  .now-prose .term {
+    border-bottom: 1px dotted var(--accent);
+    cursor: help;
+  }
+
+  /* sidenotes */
+  .sidenotes { display: flex; flex-direction: column; gap: 18px; padding-top: 6px; }
+  .sidenote {
+    padding: 16px 18px;
+    background: color-mix(in oklab, var(--accent) 5%, var(--paper));
+    border-left: 2.5px solid var(--accent);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .sidenote .label {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .sidenote p { margin: 0 0 8px; }
+  .sidenote p:last-child { margin: 0; }
+  .sidenote code {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    background: rgba(26,23,20,.08);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* ───── WRITING ───── */
+  .writing-list { display: flex; flex-direction: column; }
+  .writing-item {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: clamp(20px, 4vw, 56px);
+    padding: clamp(24px, 3vw, 36px) 0;
+    border-bottom: 0.5px solid color-mix(in oklab, var(--ink) 20%, transparent);
+    align-items: start;
+  }
+  .writing-item:first-child { padding-top: 0; }
+  .writing-item:last-child { border-bottom: 0; }
+  .writing-date {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    padding-top: 12px;
+  }
+  .writing-meat .title {
+    font-weight: 600;
+    font-size: clamp(24px, 2.6vw, 34px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 0 0 10px;
+  }
+  .writing-meat .title a { border: 0; padding: 0; }
+  .writing-meat .title a:hover { color: var(--accent); }
+  .writing-meat .dek {
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 56ch;
+    margin: 0 0 12px;
+    font-style: italic;
+  }
+  .writing-meat .tags {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .writing-meat .tags .sep { color: var(--accent); }
+  .writing-arrow {
+    font-family: "Newsreader", serif;
+    font-size: 32px;
+    color: var(--ink-mute);
+    padding-top: 8px;
+    transition: transform .25s, color .15s;
+  }
+  .writing-item:hover .writing-arrow { transform: translateX(8px); color: var(--accent); }
+
+  .writing-soon {
+    display: flex; align-items: baseline; gap: 14px;
+    padding: 24px 0 0;
+    color: var(--ink-mute);
+    font-style: italic;
+    font-size: 16px;
+  }
+  .writing-soon .dot { color: var(--accent); font-style: normal; }
+
+  /* ───── OPEN SOURCE ───── */
+  .oss-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(28px, 4vw, 56px);
+  }
+  .repo-card {
+    display: flex; flex-direction: column;
+    gap: 20px;
+  }
+  .repo-head {
+    display: flex; flex-direction: column; gap: 6px;
+    padding-bottom: 14px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  .repo-name {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+  .repo-name .org { color: var(--ink-mute); font-weight: 400; }
+  .repo-blurb {
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .repo-contribs { display: flex; flex-direction: column; gap: 18px; }
+  .contrib {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+  .contrib .marker {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    background: color-mix(in oklab, var(--accent) 10%, var(--paper));
+    padding: 3px 0;
+    text-align: center;
+    border-radius: 2px;
+    margin-top: 3px;
+  }
+  .contrib h3 {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+  .contrib h3 code {
+    background: rgba(26,23,20,.07);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 13px;
+  }
+  .contrib p {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  /* ───── elsewhere / footer ───── */
+  .elsewhere {
+    padding: clamp(56px, 9vw, 120px) var(--gutter);
+  }
+  .elsewhere-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: end;
+  }
+  .elsewhere h2 {
+    font-weight: 600;
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin: 0;
+    max-width: 12ch;
+  }
+  .elsewhere h2 em { font-style: italic; color: var(--ink-mute); font-weight: 400; }
+  .elsewhere .links {
+    display: flex; flex-direction: column; gap: 14px;
+    font-family: "IBM Plex Mono", monospace;
+  }
+  .elsewhere .links a {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 0.5px solid var(--ink);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+    border-radius: 0;
+  }
+  .elsewhere .links a:first-child { border-top: 0.5px solid var(--ink); }
+  .elsewhere .links a .where {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 11px;
+    color: var(--ink-mute);
+  }
+  .elsewhere .links a:hover { color: var(--accent); border-color: var(--accent); }
+  .elsewhere .links a:hover .where { color: var(--accent); }
+
+  .colophon {
+    padding: 28px var(--gutter) 36px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .colophon .accent { color: var(--accent); }
+
+  /* ───── entrance reveal ───── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ───── responsive ───── */
+  @media (max-width: 820px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      padding-top: 56px;
+    }
+    .hero .right { align-self: flex-start; flex-direction: row; align-items: center; gap: 18px; }
+    .avatar-frame { width: 110px; }
+    .avatar-caption { text-align: left; max-width: 18ch; }
+    .now-body { grid-template-columns: 1fr; }
+    .oss-grid { grid-template-columns: 1fr; }
+    .writing-item { grid-template-columns: 1fr; gap: 8px; }
+    .writing-date { padding-top: 0; }
+    .writing-arrow { display: none; }
+    .elsewhere-grid { grid-template-columns: 1fr; align-items: start; }
+    .sec-head { grid-template-columns: 1fr; gap: 8px; }
+    .sec-meta { text-align: left; }
+    .topbar nav { gap: 14px; }
+    .topbar nav a:not(.show-mobile) { display: none; }
+  }
+  @media (max-width: 480px) {
+    .topbar .name span.full { display: none; }
+    .topbar nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- top nav -->
+  <header class="topbar">
+    <div class="name"><span class="dot">●</span><span class="full">Bikash Patra</span></div>
+    <nav>
+      <a href="#now">Now</a>
+      <a href="#writing">Writing</a>
+      <a href="#oss">Open Source</a>
+      <a href="#elsewhere" class="show-mobile">Elsewhere</a>
+    </nav>
+  </header>
+
+  <!-- hero -->
+  <section class="hero">
+    <div class="left">
+      <div class="kicker reveal"><span class="pulse"></span> A personal page · Bangalore · 2026</div>
+      <h1 class="reveal">Hello, I'm<br/>Bikash<span class="amp"> —</span></h1>
+      <p class="lede reveal">
+        I build ML systems and the platforms that ship them. These days I'm spending most of my
+        attention on <em>harness engineering</em> — figuring out how to ship software
+        <em>away from keyboard</em>, with Claude Code as a collaborator.
+      </p>
+      <div class="social reveal">
+        <a href="https://github.com/bikash119" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://x.com/_bikashpatra" target="_blank" rel="noopener">X</a>
+        <a href="https://linkedin.com/in/bpatra" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="right reveal">
+      <div class="avatar-frame">
+        <image-slot id="avatar" shape="circle" placeholder="Drop your Ghibli avatar"></image-slot>
+      </div>
+      <div class="avatar-caption">— a self-portrait, sort of —</div>
+    </div>
+  </section>
+
+  <!-- NOW -->
+  <section class="major" id="now">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">§ 01 · The Present Tense</div>
+        <h2 class="sec-title">Currently <em>building.</em></h2>
+      </div>
+      <div class="sec-meta">Updated · May 2026</div>
+    </div>
+
+    <div class="now-body">
+      <div class="now-prose reveal">
+        <p>
+          My current obsession is <strong>harness engineering on Claude Code</strong> — the soft
+          machinery that lets a language model actually <em>do</em> things on your behalf rather than
+          just talk about them. Tool definitions, agent loops,
+          <span class="term" title="LLM-as-Judge: using one model to score another">LLM-as-judge</span>
+          eval rigs, the alignment tape that keeps an autonomous run from veering off the road.
+          That whole stack.
+        </p>
+        <p>
+          The reason I care: I'm trying to figure out how much of my own work I can do
+          <strong>AFK</strong> — away from keyboard. Not in the lazy sense. In the
+          <em>tell-the-machine-where-you're-going-and-come-back-to-a-pull-request</em> sense. The
+          past few years of my career have been about helping teams ship ML reliably; this next
+          chapter feels like the inverse — building the harness that lets a small number of
+          humans direct a large amount of agentic work, without the work ever feeling out of control.
+        </p>
+        <p>
+          So I read a lot of agent SDKs. I write a lot of evals. I think a lot about the seams
+          between what a model is good at and what it isn't, and where a well-placed judge or
+          guardrail turns a flaky pipeline into a useful one. If any of that sounds like the
+          shape of your own week — I'd love to compare notes.
+        </p>
+      </div>
+
+      <aside class="sidenotes">
+        <div class="sidenote reveal">
+          <span class="label">Glossary</span>
+          <p><strong>Harness engineering</strong> — the scaffolding around an LLM: tools, evals, judges, alignment, the loop itself. Less glamorous than model training. More important for shipping.</p>
+        </div>
+        <div class="sidenote reveal">
+          <span class="label">AFK</span>
+          <p>Away from keyboard. The promise that you can describe a problem, walk away, and find a credible solution waiting when you come back. Mostly aspirational, sometimes real.</p>
+        </div>
+        <div class="sidenote reveal">
+          <span class="label">Reading</span>
+          <p>Lately: papers on tool use, agent benchmarks, and anything Anthropic ships about <code>claude-code</code>.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- WRITING -->
+  <section class="major" id="writing">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">§ 02 · Writing</div>
+        <h2 class="sec-title">Things I've <em>written down.</em></h2>
+      </div>
+      <div class="sec-meta">Long form · Argilla, GitHub</div>
+    </div>
+
+    <div class="writing-list">
+
+      <article class="writing-item reveal">
+        <div class="writing-date">2024 · Essay</div>
+        <div class="writing-meat">
+          <h3 class="title">
+            <a href="#" target="_blank" rel="noopener">
+              Fine-tuning a token classification model for legal data using Argilla and AutoTrain
+            </a>
+          </h3>
+          <p class="dek">
+            A walk-through of how to take messy legal text, annotate it well, and turn the
+            annotations into a working token-classification model — without leaving the
+            Argilla + AutoTrain loop.
+          </p>
+          <div class="tags">
+            <span>Argilla</span><span class="sep">·</span>
+            <span>AutoTrain</span><span class="sep">·</span>
+            <span>NER</span><span class="sep">·</span>
+            <span>Legal NLP</span>
+          </div>
+        </div>
+        <div class="writing-arrow">→</div>
+      </article>
+
+      <div class="writing-soon reveal">
+        <span class="dot">●</span>
+        <span>More on the way — notes on harness engineering, evals, and the AFK experiment.</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- OPEN SOURCE -->
+  <section class="major" id="oss">
+    <div class="sec-head">
+      <div>
+        <div class="sec-label">§ 03 · Open Source</div>
+        <h2 class="sec-title">Patches I've <em>sent upstream.</em></h2>
+      </div>
+      <div class="sec-meta">Argilla · distilabel</div>
+    </div>
+
+    <div class="oss-grid">
+
+      <article class="repo-card reveal">
+        <header class="repo-head">
+          <div class="repo-name"><span class="org">argilla-io /</span> argilla</div>
+          <p class="repo-blurb">The data-centric platform for training and evaluating LLMs.</p>
+        </header>
+
+        <div class="repo-contribs">
+          <div class="contrib">
+            <span class="marker">PR</span>
+            <div>
+              <h3>Helm chart for Argilla deployment</h3>
+              <p>
+                A first-class Kubernetes deployment story for Argilla — values for ingress,
+                persistence, ElasticSearch, and the API container, packaged so that anyone with
+                a cluster could be up and annotating in minutes instead of hours.
+              </p>
+            </div>
+          </div>
+          <div class="contrib">
+            <span class="marker">PR</span>
+            <div>
+              <h3>Add <code>__repr__</code> to <code>SettingsProperties</code></h3>
+              <p>
+                A small but high-frequency quality-of-life patch: settings objects now print as
+                themselves at the REPL, which makes debugging dataset configurations measurably
+                less painful.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="repo-card reveal">
+        <header class="repo-head">
+          <div class="repo-name"><span class="org">argilla-io /</span> distilabel</div>
+          <p class="repo-blurb">Synthesise &amp; curate datasets with LLMs — a pipeline for the post-Common-Crawl era.</p>
+        </header>
+
+        <div class="repo-contribs">
+          <div class="contrib">
+            <span class="marker">PR</span>
+            <div>
+              <h3>Add <code>llama-cpp</code> to <code>distilabel.embeddings</code></h3>
+              <p>
+                Brought local <code>llama.cpp</code>-served embedding models into distilabel's
+                embedding interface so users can run the whole synthesis-and-judging loop on
+                their own hardware without an external embedding API in the path.
+              </p>
+            </div>
+          </div>
+          <div class="contrib">
+            <span class="marker">PR</span>
+            <div>
+              <h3>sglang integration</h3>
+              <p>
+                A serving backend that uses <code>sglang</code>'s structured-generation engine
+                under the hood — the kind of integration that pays for itself the moment you
+                start running large-scale data generation jobs and need throughput without
+                losing format guarantees.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ELSEWHERE -->
+  <section class="elsewhere" id="elsewhere">
+    <div class="elsewhere-grid">
+      <h2 class="reveal">Find me <em>elsewhere.</em></h2>
+      <div class="links reveal">
+        <a href="https://github.com/bikash119" target="_blank" rel="noopener">
+          <span>bikash119</span><span class="where">GitHub</span>
+        </a>
+        <a href="https://x.com/_bikashpatra" target="_blank" rel="noopener">
+          <span>_bikashpatra</span><span class="where">X / Twitter</span>
+        </a>
+        <a href="https://linkedin.com/in/bpatra" target="_blank" rel="noopener">
+          <span>bpatra</span><span class="where">LinkedIn</span>
+        </a>
+        <a href="mailto:bikashjpatra@gmail.com">
+          <span>bikashjpatra@gmail.com</span><span class="where">Email</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="colophon">
+    <span>Set in <em>Newsreader</em> &amp; IBM Plex Mono</span>
+    <span class="accent">— Built &amp; rebuilt in public —</span>
+    <span>© 2026 Bikash Patra</span>
+  </footer>
+
+<script src="image-slot.js"></script>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  document.querySelectorAll('header.topbar a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      const target = document.querySelector(id);
+      if (target) { e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+</script>
+
+</body>
+</html>
